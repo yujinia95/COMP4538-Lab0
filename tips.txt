@@ -1,0 +1,6 @@
+// One class for button (Color, Number, Behaviour of the button)
+// One class for Game management
+// One class for Container
+// One class for message
+// Don't use magic numbers
+// Hace util.js (Place all common function e.g. validate function) 
