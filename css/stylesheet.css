@@ -1,0 +1,38 @@
+/* Universal selector for changing font for the entire page */
+* {
+    font-family: Arial;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 100px;
+}
+
+form {
+    text-align: center;
+}
+
+label {
+    font-size: 30px;
+}
+
+input {
+    width       : 100px;
+    height      : 20px; 
+    margin-top  : 20px;
+}
+
+button {
+    width       : 50px;
+    height      : 26px;
+    font-weight : bold;
+}
+
+/* Game board styling */
+.game-board-border {
+    position: relative;
+    border  : 2px solid grey;
+    margin  : 30px auto;
+    width   : 90%;
+    height  : 600px;
+}
