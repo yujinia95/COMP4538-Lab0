@@ -6,6 +6,7 @@
  * @description This file contains the Button class that holds the properties of buttons.
  */
 
+//! Move all hard coded strings to constants up here.
 class Button {
 
     /**
@@ -21,10 +22,13 @@ class Button {
         this.gameBoard    = gameBoard;
         this.isClickable  = false;
 
-
-        this.btnComponent = this.createButtonComponents();
+        //Create button html element with components when Button object is created.
+        this.btnComponent         = this.createButtonComponents();
+        //Arrow function to refer to the class instance.
+        this.btnComponent.onclick = () => this.handleClick();
     }
 
+    //! Move hard coded strings to constants up here.
     /**
      * Create a button with components(Colour, order, size, position).
      */
@@ -38,22 +42,23 @@ class Button {
         return button;
     }
 
+    //! Move hard coded strings to constants up here.
     /**
      * Make the button clickable.
      * Current css for 'disable-click-button', pointer events is none.
      */
     makeButtonClickable() {
-        this.isClickable                = true;
-        this.btnComponent.style.cursor  = 'pointer';
+        this.isClickable = true;
         this.btnComponent.classList.remove('disable-click-button');
     }
 
+    //! Move hard coded strings to constants up here.
     /**
      * Make the button unclickable.
      * Current css for 'disable-click-button', pointer events is none.
      */
     makeButtonUnclickable() {
-        this.isClickable                = false;
+        this.isClickable = false;
         this.btnComponent.classList.add('disable-click-button');
     }
 
@@ -64,6 +69,7 @@ class Button {
         this.btnComponent.textContent = this.order;
     }
 
+    //! Move hard coded strings to constants up here.
     /**
      * Hide the number on the button.
      */
@@ -71,30 +77,54 @@ class Button {
         this.btnComponent.textContent = "";
     }
 
+    /**
+     * Remove the button from the game board.
+     */
+    removeButton() {
+        this.btnComponent.remove();
+    }
 
+    //! Move hard coded strings to constants up here.
+    /**
+     * Set the location of the button on the game board.
+     * 
+     * @param {*} top to the top position
+     * @param {*} left to the left position
+     */
+    setLocation(top, left) {
+        this.btnComponent.style.top  = top + "px";
+        this.btnComponent.style.left = left + "px";
+    }
 
+    //! Magic number
+    /**
+     * Getter for the location of the button on the game board
+     * 
+     * @returns the current location of the button on the game board
+     */
+    getLocation(){
+        return {
+            top : parseInt(this.btnComponent.style.top) || 0,
+            left: parseInt(this.btnComponent.style.left) || 0
+        }
+    }
 
+    /**
+     * Add the button to the game board.
+     * @param {*} gameBoard game board where the button is placed
+     */
+    addBtnToGameBoard(gameBoard) {
+        gameBoard.appendChild(this.btnComponent);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    /**
+     * Handle the button's click event. Triggered only if the button is clickable.
+     * @returns 
+     */
+    handleClick() {
+        if (!this.isClickable) {
+                return;
+        }
+        onclick(this);
+    }
 }
