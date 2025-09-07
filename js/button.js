@@ -6,7 +6,10 @@
  * @description This file contains the Button class that holds the properties of buttons.
  */
 
-//! Move all hard coded strings to constants up here.
+const EVENT_CLICK           = "click";
+const BUTTON_ELEMENT        = "button";
+const BUTTON_CLASS          = "game-button disable-click-button";
+const BUTTON_DISABLED_CLASS = "disable-click-button";
 class Button {
 
     /**
@@ -24,56 +27,52 @@ class Button {
 
         //Create button html element with components when Button object is created.
         this.btnComponent = this.createButtonComponents();
-        this.btnComponent.addEventListener("click", () => this.handleClick());
+        this.btnComponent.addEventListener(GAME_SETTINGS.EVENT_CLICK, () => this.handleClick());
     }
 
-    //! Move hard coded strings to constants up here.
     /**
      * Create a button with components(Colour, order, size, position).
      */
     createButtonComponents() {
-        const button                 = document.createElement("button");
+        const button                 = document.createElement(BUTTON_ELEMENT);
 
         button.style.backgroundColor = this.colour;
         button.textContent           = this.order;
-        button.className             = "game-button disable-click-button";
+        button.className             = BUTTON_CLASS;
 
         return button;
     }
 
-    //! Move hard coded strings to constants up here.
     /**
      * Make the button clickable.
      * Current css for 'disable-click-button', pointer events is none.
      */
     makeButtonClickable() {
         this.isClickable = true;
-        this.btnComponent.classList.remove('disable-click-button');
+        this.btnComponent.classList.remove(BUTTON_DISABLED_CLASS);
     }
 
-    //! Move hard coded strings to constants up here.
     /**
      * Make the button unclickable.
      * Current css for 'disable-click-button', pointer events is none.
      */
     makeButtonUnclickable() {
         this.isClickable = false;
-        this.btnComponent.classList.add('disable-click-button');
+        this.btnComponent.classList.add(BUTTON_DISABLED_CLASS);
     }
 
     /**
      * Display the number on the button.
      */
-    displayNumbOnButton() {
+    displayNumberOnButton() {
         this.btnComponent.textContent = this.order;
     }
 
-    //! Move hard coded strings to constants up here.
     /**
      * Hide the number on the button.
      */
-    hideNumbOnButton() {
-        this.btnComponent.textContent = "";
+    hideNumberOnButton() {
+        this.btnComponent.textContent = GAME_SETTINGS.EMPTY_STRING;
     }
 
     /**
@@ -83,7 +82,6 @@ class Button {
         this.btnComponent.remove();
     }
 
-    //! Move hard coded strings to constants up here.
     /**
      * Set the location of the button on the game board.
      * 
@@ -91,21 +89,8 @@ class Button {
      * @param {*} left to the left position
      */
     setLocation(top, left) {
-        this.btnComponent.style.top  = top + "px";
-        this.btnComponent.style.left = left + "px";
-    }
-
-    //! Magic number
-    /**
-     * Getter for the location of the button on the game board
-     * 
-     * @returns the current location of the button on the game board
-     */
-    getLocation(){
-        return {
-            top : parseInt(this.btnComponent.style.top) || 0,
-            left: parseInt(this.btnComponent.style.left) || 0
-        }
+        this.btnComponent.style.top  = top + GAME_SETTINGS.UNIT_PX;
+        this.btnComponent.style.left = left + GAME_SETTINGS.UNIT_PX;
     }
 
     /**

@@ -16,7 +16,6 @@ const BTN_WIDTH_EM           = 10;
 const BTN_HEIGHT_EM          = 5;
 const ROW_BTN_SPACING        = 10;
 const ROW_BTN_MARGIN         = 20;
-const UNIT_PX                = "px";
 const RESIZE_WINDOW_EVENT    = "resize";
 const INCLUSIVE_RANGE_OFFSET = 1;
 const INTERVAL_2_SECONDS     = 2000;
@@ -50,7 +49,7 @@ class GameBoard {
      * @param {*} button game button that was clicked
      */
     onButtonClicked(button) {
-        this.gameManagement._handleButtonClick(button);
+        this.gameManagement._handleButtonClickOrder(button);
     }
 
     /**
@@ -112,8 +111,8 @@ class GameBoard {
         this.gameBoardWidth  = this.windowWidth;
         this.gameBoardHeight = Math.max(MIN_VALUE_FOR_MAX, this.windowHeight - this.topSectionHeight);
 
-        this.gameBoard.style.width  = `${this.gameBoardWidth}${UNIT_PX}`;
-        this.gameBoard.style.height = `${this.gameBoardHeight}${UNIT_PX}`;
+        this.gameBoard.style.width  = `${this.gameBoardWidth}${GAME_SETTINGS.UNIT_PX}`;
+        this.gameBoard.style.height = `${this.gameBoardHeight}${GAME_SETTINGS.UNIT_PX}`;
     }
 
     /**
@@ -267,14 +266,14 @@ class GameBoard {
      * Display all numbers on the buttons.
      */
     displayAllNumbersOnButtons() {
-        this.buttons.forEach(button => button.displayNumbOnButton());
+        this.buttons.forEach(button => button.displayNumberOnButton());
     }
     
     /**
      * Hide all numbers on the buttons.
      */
     hideAllNumbersOnButtons() {
-        this.buttons.forEach(button => button.hideNumbOnButton());
+        this.buttons.forEach(button => button.hideNumberOnButton());
     }
 
     /**
@@ -289,14 +288,5 @@ class GameBoard {
      */
     makeAllButtonsUnclickable() {
         this.buttons.forEach(button => button.makeButtonUnclickable());
-    }
-
-    /**
-     * Getter for all buttons.
-     * 
-     * @returns {Array} Array of all buttons.
-     */
-    getAllButtons() {
-        return this.buttons;
     }
 }

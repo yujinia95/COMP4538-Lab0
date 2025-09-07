@@ -48,7 +48,6 @@ button {
 
 /* Game message border */
 .game-message-style {
-    border      : 1px solid black;
     padding     : 15px 20px;
     margin      : 15px auto;
     font-size   : 15px;

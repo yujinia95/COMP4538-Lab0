@@ -4,6 +4,14 @@
  * @version 1.0
  * @description This file contains the UImessage class that manages the messages for the user interface (used for HTML file).
  */
+
+const CLASSES = {
+    GAME_TITLE     : "game-title",
+    HEADER         : "game-header",
+    NUM_INPUT_LABEL: "num-btn-label",
+    START_BTN      : "start-btn",
+    GAME_MSG       : "game-message"
+}
 class UIMessage {
 
     /**
@@ -16,11 +24,11 @@ class UIMessage {
      * @param {*} gameMsg Game message display
      */
     constructor(
-        gameTitle       = "game-title",
-        header          = "game-header",
-        numInputLabel   = "num-btn-label",
-        startBtn        = "start-btn",
-        gameMsg         = "game-message"
+        gameTitle       = CLASSES.GAME_TITLE,
+        header          = CLASSES.HEADER,
+        numInputLabel   = CLASSES.NUM_INPUT_LABEL,
+        startBtn        = CLASSES.START_BTN,
+        gameMsg         = CLASSES.GAME_MSG
     ) {
         this.gameTitle      = document.getElementById(gameTitle);
         this.header         = document.getElementById(header);
@@ -28,11 +36,9 @@ class UIMessage {
         this.startBtn       = document.getElementById(startBtn);
         this.gameMsg        = document.getElementById(gameMsg);
         
-        //! Make sure I know why I need this.setTests(); here
         this.setTexts();
     }
     
-    //! Make sure I know what setTexts() does
     setTexts() {
         this.gameTitle.textContent      = GAME_MSG_FOR_USER.GAME_TITLE;
         this.header.textContent         = GAME_MSG_FOR_USER.GAME_HEADER;
@@ -45,7 +51,7 @@ class UIMessage {
      */
     clearGameMessage() {
         if (this.gameMsg) {
-            this.gameMsg.textContent = "";
+            this.gameMsg.textContent = GAME_SETTINGS.EMPTY_STRING;
         }
     }
 

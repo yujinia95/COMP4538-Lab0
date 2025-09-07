@@ -10,5 +10,6 @@ const GAME_MSG_FOR_USER = {
     BTN_NUM_LABEL : "How many buttons to create?",
     START_BTN     : "Go",
     GAME_COMPLETE : "Excellent memory",
-    GAME_FAILED   : "Wrong order!"
+    GAME_FAILED   : "Wrong order!",
+    INVALID_INPUT : "Please enter number 3 ~ 7"
 }

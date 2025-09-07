@@ -7,9 +7,12 @@
  */
 
 const GAME_SETTINGS = {
-    BUTTON_COLOUR: ["#66C5CC", "#F6CF71", "#F89C74", "#DCB0F2" ,"#B3B3B3", "#9EB9F3", "#FE88B1"],
-    MIN_BUTTON: 3,
-    MAX_BUTTON: 7
+    BUTTON_COLOUR: ["#66C5CC", "#F6CF71", "#F89C74","#B497E7","#87C55F","#C9DB74","#8BE0A4", "#DCB0F2" ,"#B3B3B3", "#9EB9F3", "#FE88B1"],
+    MIN_BUTTON   : 3,
+    MAX_BUTTON   : 7,
+    UNIT_PX      : "px",
+    EVENT_CLICK  : "click",
+    EMPTY_STRING : ""
 }
 
 /**
@@ -38,8 +41,15 @@ const GameUtilFunctions = {
      */
     convertEmToPx: (element, em) => {
         return em * parseFloat(getComputedStyle(element).fontSize);
+    },
+
+    /**
+     * Check if the number of buttons is valid.
+     * 
+     * @param {*} count count of buttons
+     * @returns {boolean} true if valid, false otherwise
+     */
+    isValidNumberOfButtons: (count) => {
+        return count >= GAME_SETTINGS.MIN_BUTTON && count <= GAME_SETTINGS.MAX_BUTTON;
     }
-
-
-    //Possibly Random number generator
-}
+};

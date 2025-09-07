@@ -11,7 +11,6 @@ const INITIAL_NUM_BTN      = 0;
 const INITIAL_NEXT_BTN_NUM = 1;
 const START_BTN            = "start-btn";
 const NUM_INPUT            = "num-btn-input";
-const EVENT_CLICK          = "click";
 const EVENT_KEYPRESS       = "keypress";
 const EVENT_KEYPRESS_ENTER = "Enter";
 const DECIMAL              = 10;
@@ -25,7 +24,8 @@ const GAME_STATE = {
 };
 const GAME_MSG_KEYS = {
     EXCELLENT_MEMORY: "GAME_COMPLETE",
-    WRONG_ORDER     : "GAME_FAILED"
+    WRONG_ORDER     : "GAME_FAILED",
+    INVALID_INPUT   : "INVALID_INPUT"
 }
 
 class GameManagement{
@@ -40,6 +40,9 @@ class GameManagement{
         this.numberOfButtons  = INITIAL_NUM_BTN;
         this.nextButtonNumber = INITIAL_NEXT_BTN_NUM;
 
+        this.startBtn = document.getElementById(START_BTN);
+        this.numInput = document.getElementById(NUM_INPUT);
+
         this._initializeGame();
     }
 
@@ -50,12 +53,10 @@ class GameManagement{
      * Initialize the game by setting up event listeners for the start button and number input field(enabling press Enter).
      */
     _initializeGame() {
-        const startBtn = document.getElementById(START_BTN);
-        const numInput = document.getElementById(NUM_INPUT);
 
-        startBtn.addEventListener(EVENT_CLICK, () => {
+        this.startBtn.addEventListener(GAME_SETTINGS.EVENT_CLICK, () => {
 
-            if (startBtn.disabled) {
+            if (this.startBtn.disabled) {
                 return;
             }
 
@@ -63,17 +64,17 @@ class GameManagement{
         });
 
         //event: event object passed to the event listener
-        numInput.addEventListener(EVENT_KEYPRESS, (event) => {
+        this.numInput.addEventListener(EVENT_KEYPRESS, (event) => {
             if (event.key === EVENT_KEYPRESS_ENTER) {
                 
                 //'preventDefault()': prevent the browser's default action (reload or submit the page) to not break the game.
                 event.preventDefault();
 
-                if (startBtn.disabled) {
+                if (this.startBtn.disabled) {
                     return;
                 }
 
-                this.startGame();
+                this.startGamePlay();
             }
         });
 
@@ -107,12 +108,10 @@ class GameManagement{
      * @param {*} enabled true to enable, false to disable
      */
     _setStartAndInputEnable(enabled) {
-        const startBtn = document.getElementById(START_BTN);
-        const numInput = document.getElementById(NUM_INPUT);
 
         //If enabled is true, "Go" button and input field are enabled, otherwise disabled.
-        startBtn.disabled = !enabled;
-        numInput.disabled = !enabled;
+        this.startBtn.disabled = !enabled;
+        this.numInput.disabled = !enabled;
     }
 
     /**
@@ -124,7 +123,7 @@ class GameManagement{
         this.gameState = GAME_STATE.FINISHED;
 
         this.gameBoard.makeAllButtonsUnclickable();
-        this.gameBoard.showAllNumbersOnButtons();
+        this.gameBoard.displayAllNumbersOnButtons();
 
         this.uiMessage.displayGameMessage(nailedIt ? GAME_MSG_KEYS.EXCELLENT_MEMORY : GAME_MSG_KEYS.WRONG_ORDER);
     
@@ -136,7 +135,7 @@ class GameManagement{
      * 
      * @param {*} button user's clicked button
      */
-    _hanldeButtonClickOrder(button) {
+    _handleButtonClickOrder(button) {
 
         //Ignore clicks if not in PLAYING state or button is not clickable.
         if (this.gameState !== GAME_STATE.PLAYING || !button.isClickable) {
@@ -146,16 +145,16 @@ class GameManagement{
         //Check if the number on clicked button matches the expected next number.
         if (button.order === this.nextButtonNumber) {
             button.displayNumberOnButton();
-            button.makkeButtonUnclickable();
+            button.makeButtonUnclickable();
             this.nextButtonNumber++;
 
             //Check if all buttons have been clicked in the correct order.
             if (this.nextButtonNumber > this.numberOfButtons) {
                 this._finishGamePlay(true);
-            } else {
+            } 
+        } else {
                 //Wrong button clicked and game over :(
                 this._finishGamePlay(false);  
-            }
         }
     }
 
@@ -167,15 +166,22 @@ class GameManagement{
     }
 
 
-
+    /**
+     * Start the game play by reset game components, creating buttons, displaying their numbers, and scrambling them.
+     */
     startGamePlay() {
-        const userInput = document.getElementById(NUM_INPUT);
-        const numbOfBtn = parseInt(userInput.value, DECIMAL);
-    
+        const numbOfBtn = parseInt(this.numInput.value, DECIMAL);
+        
+        //Validate user input for number of buttons.
+        if (!GameUtilFunctions.isValidNumberOfButtons(numbOfBtn)) {
+            this.uiMessage.displayGameMessage(GAME_MSG_KEYS.INVALID_INPUT);
+            this._setStartAndInputEnable(true);
+            return;
+        }
+
         //Reset game components in case.
         this._clearGameMessage();
         this.gameBoard.clearButtons();
-        this.nextButtonNumber = INITIAL_NEXT_BTN_NUM;
         this.gameState        = GAME_STATE.DISPLAYING;
         this.numberOfButtons  = numbOfBtn;
         this.nextButtonNumber = INITIAL_NEXT_BTN_NUM;
@@ -183,7 +189,7 @@ class GameManagement{
         this._setStartAndInputEnable(false);
 
         this.gameBoard.createButtons(this.numberOfButtons);
-        this.gameBoard.showAllNumbersOnButtons();
+        this.gameBoard.displayAllNumbersOnButtons();
         this.gameBoard.makeAllButtonsUnclickable();
         this.gameBoard.locateButtonsInRow();
 
