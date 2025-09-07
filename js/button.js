@@ -23,9 +23,8 @@ class Button {
         this.isClickable  = false;
 
         //Create button html element with components when Button object is created.
-        this.btnComponent         = this.createButtonComponents();
-        //Arrow function to refer to the class instance.
-        this.btnComponent.onclick = () => this.handleClick();
+        this.btnComponent = this.createButtonComponents();
+        this.btnComponent.addEventListener("click", () => this.handleClick());
     }
 
     //! Move hard coded strings to constants up here.
@@ -125,6 +124,6 @@ class Button {
         if (!this.isClickable) {
                 return;
         }
-        onclick(this);
+        this.gameBoard.onButtonClicked(this);
     }
 }

@@ -52,13 +52,9 @@ class UIMessage {
     /**
      * Display game messages "Excellent memory" or "Wrong order!" based on the provided index.
      * 
-     * @param {*} gameMsgIndices Index to determine which message to display
+     * @param {string} gameMsgKey Key to determine which message to display
      */
-    displayGameMessage(gameMsgIndices) {
-        this.gameMsg.textContent = GAME_MSG_FOR_USER[gameMsgIndices];
+    displayGameMessage(gameMsgKey) {
+        this.gameMsg.textContent = GAME_MSG_FOR_USER[gameMsgKey];
     }
 }
-
-
-//! Make sure I move this to game manager.
-window.addEventListener("DOMContentLoaded", () => new UIMessage());

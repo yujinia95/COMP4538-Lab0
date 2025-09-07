@@ -6,30 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="game-title"></title>
     <!--CSS file-->
-    <link rel="stylesheet" href="./css/stylesheet.css"
+    <link rel="stylesheet" href="./css/stylesheet.css">
 </head>
 
 <body>
-    <!--Header Section-->
-    <h1 id="game-header"></h1>
-    
-    <!--Input for creating buttons and start button-->
-    <form>
-        <label for="num-btn-input" id="num-btn-label"></label>
-        <br>
-        <input type="number" id="num-btn-input" name="numBtnInput" min="3" max="7" required />
-        <button id="start-btn"></button>
-    </form>
 
-    <!--Game Message-->
-    <!--! DELETE CSS LATER FOR BORDER -->
-    <div class="game-message-style" id="game-message"></div>
-    <!--Game Board-->
+    <div id="top-section" class="top-section-style">
+        <h1 id="game-header"></h1>
+    
+        <!--Input for creating buttons and start button-->
+        <form>
+            <label for="num-btn-input" id="num-btn-label"></label>
+            <br>
+            <input type="number" id="num-btn-input" name="numBtnInput" min="3" max="7" required />
+            <button id="start-btn"></button>
+        </form>
+
+        <!--Game Message-->
+        <!--! DELETE CSS LATER FOR BORDER -->
+        <div class="game-message-style" id="game-message"></div>
+    </div>
+
+        <!--Game Board-->
     <div class="game-board-border" id="game-board"></div>
 
     <!--JavaScript file-->
     <script src="./lang/messages/en/user.js"></script>
-    <script src="./js/ui-message.js"></script>
+    <script src="./js/util.js"></script>
+    <script src="./js/button.js"></script>
+    <script src="./js/gameBoard.js"></script>
+    <script src="./js/uiMessage.js"></script>
+    <script src="./js/gameManagement.js"></script>
 </body>
 
 </html>

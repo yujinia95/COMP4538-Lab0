@@ -31,6 +31,7 @@ const GameUtilFunctions = {
      * Convert em to px.
      * Default ratio: 1em = 16px
      * getComputedStyle(): gets CSS values being applied to the element.
+     * why fontSize? : font size is the only property that scales with em.
      * 
      * @param {*} em Value in em to be converted to px
      * @returns      Value in px
