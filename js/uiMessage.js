@@ -5,14 +5,15 @@
  * @description This file contains the UImessage class that manages the messages for the user interface (used for HTML file).
  */
 
-const CLASSES = {
-    GAME_TITLE     : "game-title",
-    HEADER         : "game-header",
-    NUM_INPUT_LABEL: "num-btn-label",
-    START_BTN      : "start-btn",
-    GAME_MSG       : "game-message"
-}
 class UIMessage {
+    
+    static CLASSES = {
+        GAME_TITLE     : "game-title",
+        HEADER         : "game-header",
+        NUM_INPUT_LABEL: "num-btn-label",
+        START_BTN      : "start-btn",
+        GAME_MSG       : "game-message"
+    }
 
     /**
      * Constructor for UIMessage class.
@@ -24,11 +25,11 @@ class UIMessage {
      * @param {*} gameMsg Game message display
      */
     constructor(
-        gameTitle       = CLASSES.GAME_TITLE,
-        header          = CLASSES.HEADER,
-        numInputLabel   = CLASSES.NUM_INPUT_LABEL,
-        startBtn        = CLASSES.START_BTN,
-        gameMsg         = CLASSES.GAME_MSG
+        gameTitle       = UIMessage.CLASSES.GAME_TITLE,
+        header          = UIMessage.CLASSES.HEADER,
+        numInputLabel   = UIMessage.CLASSES.NUM_INPUT_LABEL,
+        startBtn        = UIMessage.CLASSES.START_BTN,
+        gameMsg         = UIMessage.CLASSES.GAME_MSG
     ) {
         this.gameTitle      = document.getElementById(gameTitle);
         this.header         = document.getElementById(header);

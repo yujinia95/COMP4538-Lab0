@@ -7,34 +7,35 @@
  *              Also changes the size of the game board to make sure buttons fit within the game board.
  */
 
-const TEMP_SIZE              = 0;
-const FIRST_BTN              = 1;
-const TOP_SECTION_ID         = "top-section";
-const MIN_VALUE_FOR_MAX      = 0;
-const ENTIRE_WIDTH_VW        = 100;
-const BTN_WIDTH_EM           = 10;
-const BTN_HEIGHT_EM          = 5;
-const ROW_BTN_SPACING        = 10;
-const ROW_BTN_MARGIN         = 20;
-const RESIZE_WINDOW_EVENT    = "resize";
-const INCLUSIVE_RANGE_OFFSET = 1;
-const INTERVAL_2_SECONDS     = 2000;
-const INITIAL_COUNT          = 0;
 
-//! Move all hard coded strings to constants up here.
 class GameBoard {
-    constructor(gameBoardID, gameManagement, topSection = TOP_SECTION_ID) {
+    
+    static TEMP_SIZE              = 0;
+    static FIRST_BTN              = 1;
+    static TOP_SECTION_ID         = "top-section";
+    static MIN_VALUE_FOR_MAX      = 0;
+    static ENTIRE_WIDTH_VW        = 100;
+    static BTN_WIDTH_EM           = 10;
+    static BTN_HEIGHT_EM          = 5;
+    static ROW_BTN_SPACING        = 10;
+    static ROW_BTN_MARGIN         = 20;
+    static RESIZE_WINDOW_EVENT    = "resize";
+    static INCLUSIVE_RANGE_OFFSET = 1;
+    static INTERVAL_2_SECONDS     = 2000;
+    static INITIAL_COUNT          = 0;
+
+    constructor(gameBoardID, gameManagement, topSection = GameBoard.TOP_SECTION_ID) {
         this.gameBoard      = document.getElementById(gameBoardID);
         this.gameManagement = gameManagement;
         this.topSection     = document.getElementById(topSection);
         this.buttons        = [];
 
         //Initialize to a temporary size as 0
-        this.windowHeight     = TEMP_SIZE;
-        this.windowWidth      = TEMP_SIZE;
-        this.topSectionHeight = TEMP_SIZE;
-        this.gameBoardHeight  = TEMP_SIZE;
-        this.gameBoardWidth   = TEMP_SIZE;
+        this.windowHeight     = GameBoard.TEMP_SIZE;
+        this.windowWidth      = GameBoard.TEMP_SIZE;
+        this.topSectionHeight = GameBoard.TEMP_SIZE;
+        this.gameBoardHeight  = GameBoard.TEMP_SIZE;
+        this.gameBoardWidth   = GameBoard.TEMP_SIZE;
 
         //Read the initial sizes and set the game board size
         this._readWindowSize();
@@ -68,7 +69,7 @@ class GameBoard {
     createButtons(n) {
         this.clearButtons();
 
-        for (let i = FIRST_BTN; i <= n; i++) {
+        for (let i = GameBoard.FIRST_BTN; i <= n; i++) {
 
             const colour = GameUtilFunctions.getRandomColour();
             const button = new Button(colour, i, this);
@@ -109,7 +110,7 @@ class GameBoard {
      */
     _matchGameBoardSizeToWindow() {
         this.gameBoardWidth  = this.windowWidth;
-        this.gameBoardHeight = Math.max(MIN_VALUE_FOR_MAX, this.windowHeight - this.topSectionHeight);
+        this.gameBoardHeight = Math.max(GameBoard.MIN_VALUE_FOR_MAX, this.windowHeight - this.topSectionHeight);
 
         this.gameBoard.style.width  = `${this.gameBoardWidth}${GAME_SETTINGS.UNIT_PX}`;
         this.gameBoard.style.height = `${this.gameBoardHeight}${GAME_SETTINGS.UNIT_PX}`;
@@ -119,7 +120,7 @@ class GameBoard {
      * Whenever the window size changes, update the game board size.
      */
     _handleWindowResize(){
-        window.addEventListener(RESIZE_WINDOW_EVENT, () => {
+        window.addEventListener(GameBoard.RESIZE_WINDOW_EVENT, () => {
             this._readWindowSize();
             this._readTopSectionSize();
             this._matchGameBoardSizeToWindow();
@@ -135,8 +136,8 @@ class GameBoard {
 
     //Convert button size from em to px. Why this.gameBoard? to ensure button scale correctly if gameBoard's font size changes. 
     _getButtonSizeInPx() {
-        const btnWidthPx  = GameUtilFunctions.convertEmToPx(this.gameBoard, BTN_WIDTH_EM);
-        const btnHeightPx = GameUtilFunctions.convertEmToPx(this.gameBoard, BTN_HEIGHT_EM);
+        const btnWidthPx  = GameUtilFunctions.convertEmToPx(this.gameBoard, GameBoard.BTN_WIDTH_EM);
+        const btnHeightPx = GameUtilFunctions.convertEmToPx(this.gameBoard, GameBoard.BTN_HEIGHT_EM);
         return {btnWidthPx, btnHeightPx};
     }
 
@@ -152,10 +153,10 @@ class GameBoard {
         const {btnWidthPx, btnHeightPx} = this._getButtonSizeInPx();
 
         //Define css layout for buttons.
-        const spacing         = ROW_BTN_SPACING;
-        const marginLeft      = ROW_BTN_MARGIN;
-        const marginTop       = ROW_BTN_MARGIN;
-        const rightEdgeGuard  = ROW_BTN_MARGIN;
+        const spacing         = GameBoard.ROW_BTN_SPACING;
+        const marginLeft      = GameBoard.ROW_BTN_MARGIN;
+        const marginTop       = GameBoard.ROW_BTN_MARGIN;
+        const rightEdgeGuard  = GameBoard.ROW_BTN_MARGIN;
 
         //Set button's starting position
         let leftPosition = marginLeft;
@@ -194,7 +195,7 @@ class GameBoard {
         //Calculate the max left and top position to ensure button fits within the game board
         //0 in Math.max() make sure it doesn't go negative.
         //'minTopPosition' in Math.max() make sure button doesn't go above the top section.
-        const maxLeftPosition = Math.max(MIN_VALUE_FOR_MAX, this.windowWidth - btnWidthPx);
+        const maxLeftPosition = Math.max(GameBoard.MIN_VALUE_FOR_MAX, this.windowWidth - btnWidthPx);
         const minTopPosition  = this.topSectionHeight;
         const maxTopPosition  = Math.max(minTopPosition, this.windowHeight - btnHeightPx);
         
@@ -203,7 +204,7 @@ class GameBoard {
         //'+1' in Math.random() * (max - min + 1) + min helps to reach the max value.
         //'+ minTopPosition' to ensure button doesn't go above the top section
         const randomLeft = Math.floor(Math.random() * (maxLeftPosition));
-        const randomTop  = Math.floor(Math.random() * (maxTopPosition - minTopPosition + INCLUSIVE_RANGE_OFFSET)) + minTopPosition;
+        const randomTop  = Math.floor(Math.random() * (maxTopPosition - minTopPosition + GameBoard.INCLUSIVE_RANGE_OFFSET)) + minTopPosition;
 
         //Why return 'top : randomTop - this.topSectionHeight'?
         //      Buttons are inside the game board, so need to adjust the top 
@@ -232,7 +233,7 @@ class GameBoard {
      * @param {*} onDone callback function to call when done
      */
     scrambleButtonsNTimes(n, onDone) {
-        let count = INITIAL_COUNT;
+        let count = GameBoard.INITIAL_COUNT;
 
         /**
          * Scarmble buttons once and set a timeout to call itself again after 2 seconds.
@@ -253,7 +254,7 @@ class GameBoard {
 
             this.scrambleButtonsOnce();
             count++;
-            setTimeout(scrambleStep, INTERVAL_2_SECONDS);
+            setTimeout(scrambleStep, GameBoard.INTERVAL_2_SECONDS);
         };
 
         scrambleStep();

@@ -6,11 +6,12 @@
  * @description This file contains the Button class that holds the properties of buttons.
  */
 
-const EVENT_CLICK           = "click";
-const BUTTON_ELEMENT        = "button";
-const BUTTON_CLASS          = "game-button disable-click-button";
-const BUTTON_DISABLED_CLASS = "disable-click-button";
 class Button {
+
+    static EVENT_CLICK           = "click";
+    static BUTTON_ELEMENT        = "button";
+    static BUTTON_CLASS          = "game-button disable-click-button";
+    static BUTTON_DISABLED_CLASS = "disable-click-button";
 
     /**
      * Constructor for Button class.
@@ -34,13 +35,13 @@ class Button {
      * Create a button with components(Colour, order, size, position).
      */
     createButtonComponents() {
-        const button                 = document.createElement(BUTTON_ELEMENT);
+    const button                 = document.createElement(Button.BUTTON_ELEMENT);
 
-        button.style.backgroundColor = this.colour;
-        button.textContent           = this.order;
-        button.className             = BUTTON_CLASS;
+    button.style.backgroundColor = this.colour;
+    button.textContent           = this.order;
+    button.className             = Button.BUTTON_CLASS;
 
-        return button;
+    return button;
     }
 
     /**
@@ -49,7 +50,7 @@ class Button {
      */
     makeButtonClickable() {
         this.isClickable = true;
-        this.btnComponent.classList.remove(BUTTON_DISABLED_CLASS);
+        this.btnComponent.classList.remove(Button.BUTTON_DISABLED_CLASS);
     }
 
     /**
@@ -58,7 +59,7 @@ class Button {
      */
     makeButtonUnclickable() {
         this.isClickable = false;
-        this.btnComponent.classList.add(BUTTON_DISABLED_CLASS);
+        this.btnComponent.classList.add(Button.BUTTON_DISABLED_CLASS);
     }
 
     /**

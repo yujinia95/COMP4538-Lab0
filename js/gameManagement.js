@@ -6,42 +6,43 @@
  * @description This file contains the GameManagement class that manages the overall game state and flow.
  */
 
-const GAME_BOARD_ID        = "game-board";
-const INITIAL_NUM_BTN      = 0;
-const INITIAL_NEXT_BTN_NUM = 1;
-const START_BTN            = "start-btn";
-const NUM_INPUT            = "num-btn-input";
-const EVENT_KEYPRESS       = "keypress";
-const EVENT_KEYPRESS_ENTER = "Enter";
-const DECIMAL              = 10;
-const PAUSE_INTERVAL_MS    = 1000;
-const GAME_STATE = {
-    INITIAL   : "init",
-    SCRAMBLING: "scrambling",
-    DISPLAYING: "displaying",
-    PLAYING   : "playing",
-    FINISHED  : "finished"
-};
-const GAME_MSG_KEYS = {
-    EXCELLENT_MEMORY: "GAME_COMPLETE",
-    WRONG_ORDER     : "GAME_FAILED",
-    INVALID_INPUT   : "INVALID_INPUT"
-}
 
 class GameManagement{
+
+    static GAME_BOARD_ID        = "game-board";
+    static INITIAL_NUM_BTN      = 0;
+    static INITIAL_NEXT_BTN_NUM = 1;
+    static START_BTN            = "start-btn";
+    static NUM_INPUT            = "num-btn-input";
+    static EVENT_KEYPRESS       = "keypress";
+    static EVENT_KEYPRESS_ENTER = "Enter";
+    static DECIMAL              = 10;
+    static PAUSE_INTERVAL_MS    = 1000;
+    static GAME_STATE = {
+        INITIAL   : "init",
+        SCRAMBLING: "scrambling",
+        DISPLAYING: "displaying",
+        PLAYING   : "playing",
+        FINISHED  : "finished"
+    };
+    static GAME_MSG_KEYS = {
+        EXCELLENT_MEMORY: "GAME_COMPLETE",
+        WRONG_ORDER     : "GAME_FAILED",
+        INVALID_INPUT   : "INVALID_INPUT"
+    }
 
     /**
      * Constructor for GameManagement class.
      */
     constructor() {
         this.uiMessage        = new UIMessage();
-        this.gameBoard        = new GameBoard(GAME_BOARD_ID, this);
-        this.gameState        = GAME_STATE.INITIAL;
-        this.numberOfButtons  = INITIAL_NUM_BTN;
-        this.nextButtonNumber = INITIAL_NEXT_BTN_NUM;
+        this.gameBoard        = new GameBoard(GameManagement.GAME_BOARD_ID, this);
+        this.gameState        = GameManagement.GAME_STATE.INITIAL;
+        this.numberOfButtons  = GameManagement.INITIAL_NUM_BTN;
+        this.nextButtonNumber = GameManagement.INITIAL_NEXT_BTN_NUM;
 
-        this.startBtn = document.getElementById(START_BTN);
-        this.numInput = document.getElementById(NUM_INPUT);
+        this.startBtn = document.getElementById(GameManagement.START_BTN);
+        this.numInput = document.getElementById(GameManagement.NUM_INPUT);
 
         this._initializeGame();
     }
@@ -64,8 +65,8 @@ class GameManagement{
         });
 
         //event: event object passed to the event listener
-        this.numInput.addEventListener(EVENT_KEYPRESS, (event) => {
-            if (event.key === EVENT_KEYPRESS_ENTER) {
+        this.numInput.addEventListener(GameManagement.EVENT_KEYPRESS, (event) => {
+            if (event.key === GameManagement.EVENT_KEYPRESS_ENTER) {
                 
                 //'preventDefault()': prevent the browser's default action (reload or submit the page) to not break the game.
                 event.preventDefault();
@@ -86,7 +87,7 @@ class GameManagement{
      * Start the button scrambling process with the amount of buttons specified by the user.
      */
     _startScrambleButtons() {
-        this.gameState = GAME_STATE.SCRAMBLING;
+        this.gameState = GameManagement.GAME_STATE.SCRAMBLING;
         this.gameBoard.scrambleButtonsNTimes(this.numberOfButtons, () => this._startPlay());
     }
 
@@ -94,7 +95,7 @@ class GameManagement{
      * Start the gameplay by hiding all numbers on buttons and making them clickable.
      */
     _startPlay() {
-        this.gameState = GAME_STATE.PLAYING;
+        this.gameState = GameManagement.GAME_STATE.PLAYING;
 
         this.gameBoard.hideAllNumbersOnButtons();
         this.gameBoard.makeAllButtonsClickable();
@@ -120,12 +121,12 @@ class GameManagement{
      * @param {boolean} nailedIt - Indicates if the player succeeded.
      */
     _finishGamePlay(nailedIt){
-        this.gameState = GAME_STATE.FINISHED;
+        this.gameState = GameManagement.GAME_STATE.FINISHED;
 
         this.gameBoard.makeAllButtonsUnclickable();
         this.gameBoard.displayAllNumbersOnButtons();
 
-        this.uiMessage.displayGameMessage(nailedIt ? GAME_MSG_KEYS.EXCELLENT_MEMORY : GAME_MSG_KEYS.WRONG_ORDER);
+        this.uiMessage.displayGameMessage(nailedIt ? GameManagement.GAME_MSG_KEYS.EXCELLENT_MEMORY : GameManagement.GAME_MSG_KEYS.WRONG_ORDER);
     
         this._setStartAndInputEnable(true);
     }
@@ -138,7 +139,7 @@ class GameManagement{
     _handleButtonClickOrder(button) {
 
         //Ignore clicks if not in PLAYING state or button is not clickable.
-        if (this.gameState !== GAME_STATE.PLAYING || !button.isClickable) {
+        if (this.gameState !== GameManagement.GAME_STATE.PLAYING || !button.isClickable) {
             return;
         }
 
@@ -170,11 +171,11 @@ class GameManagement{
      * Start the game play by reset game components, creating buttons, displaying their numbers, and scrambling them.
      */
     startGamePlay() {
-        const numbOfBtn = parseInt(this.numInput.value, DECIMAL);
+    const numbOfBtn = parseInt(this.numInput.value, GameManagement.DECIMAL);
         
         //Validate user input for number of buttons.
         if (!GameUtilFunctions.isValidNumberOfButtons(numbOfBtn)) {
-            this.uiMessage.displayGameMessage(GAME_MSG_KEYS.INVALID_INPUT);
+            this.uiMessage.displayGameMessage(GameManagement.GAME_MSG_KEYS.INVALID_INPUT);
             this._setStartAndInputEnable(true);
             return;
         }
@@ -182,9 +183,9 @@ class GameManagement{
         //Reset game components in case.
         this._clearGameMessage();
         this.gameBoard.clearButtons();
-        this.gameState        = GAME_STATE.DISPLAYING;
+        this.gameState        = GameManagement.GAME_STATE.DISPLAYING;
         this.numberOfButtons  = numbOfBtn;
-        this.nextButtonNumber = INITIAL_NEXT_BTN_NUM;
+        this.nextButtonNumber = GameManagement.INITIAL_NEXT_BTN_NUM;
 
         this._setStartAndInputEnable(false);
 
@@ -194,7 +195,7 @@ class GameManagement{
         this.gameBoard.locateButtonsInRow();
 
         //This timeout pause(e.g. for 3 buttons, pause for 3 seconds) before starting to scramble buttons.
-        setTimeout(() => this._startScrambleButtons(), this.numberOfButtons * PAUSE_INTERVAL_MS);
+    setTimeout(() => this._startScrambleButtons(), this.numberOfButtons * GameManagement.PAUSE_INTERVAL_MS);
     }
 }
 
